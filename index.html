@@ -316,6 +316,8 @@
             gap: 15px;
             justify-content: center;
             margin-top: 25px;
+            flex-direction: column;
+            align-items: center;
         }
 
         .btn-cancel {
@@ -327,6 +329,18 @@
         .btn-cancel:hover {
             background: #e2e8f0;
             transform: translateY(-3px);
+        }
+
+        .warning-text {
+            color: #d32f2f;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+            font-weight: 500;
+            background: #ffebee;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 1px solid #ffcdd2;
         }
 
         .modal {
@@ -570,10 +584,6 @@
                     <span class="status-badge">Активен <i class="fas fa-check"></i></span>
                 </div>
                 <div class="detail-item">
-                    <span class="detail-label">Дата привязки:</span>
-                    <span class="detail-value">27 ноября 2025 г.</span>
-                </div>
-                <div class="detail-item">
                     <span class="detail-label">Система:</span>
                     <span class="security-badge">СБП</span>
                 </div>
@@ -586,6 +596,9 @@
                     <i class="fas fa-times" style="margin-right: 8px;"></i>
                     Отменить привязку
                 </button>
+                <div class="warning-text">
+                    ⚠️ Если это были не вы - срочно отмените привязку!
+                </div>
             </div>
         </div>
     </div>
