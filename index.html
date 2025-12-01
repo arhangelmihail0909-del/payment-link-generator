@@ -351,110 +351,6 @@
             border: 1px solid #ffcdd2;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.4s ease-out;
-            position: relative;
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 24px;
-            color: #5a6c7d;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-
-        .close-btn:hover {
-            color: #2c3e50;
-        }
-
-        .modal-icon {
-            width: 70px;
-            height: 70px;
-            background: #ffebee;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-icon i {
-            font-size: 30px;
-            color: #f44336;
-        }
-
-        .modal h2 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            font-size: 24px;
-        }
-
-        .modal p {
-            color: #5a6c7d;
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
-        .phone-number {
-            display: inline-block;
-            background: #f8fafc;
-            padding: 15px 25px;
-            border-radius: 12px;
-            font-size: 22px;
-            font-weight: 700;
-            color: #2c3e50;
-            margin: 15px 0;
-            border: 2px solid #e2e8f0;
-        }
-
-        .call-btn {
-            display: inline-flex;
-            align-items: center;
-            background: linear-gradient(135deg, #4CAF50, #66BB6A);
-            color: white;
-            padding: 14px 30px;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 600;
-            text-decoration: none;
-            margin-top: 20px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
-        }
-
-        .call-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
-        }
-
-        .call-btn i {
-            margin-right: 10px;
-        }
-
         .loading {
             display: none;
             text-align: center;
@@ -471,14 +367,204 @@
             100% { transform: rotate(360deg); }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        /* Стили для страницы подтверждения */
+        .confirmation-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #2196F3, #21CBF3);
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+            animation: iconBounce 0.8s ease-out;
         }
 
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .confirmation-icon i {
+            font-size: 45px;
+            color: white;
+        }
+
+        .confirmation-title {
+            color: #1565C0;
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
+
+        .confirmation-data {
+            background: #e3f2fd;
+            border-radius: 16px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid #bbdefb;
+        }
+
+        .confirmation-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #bbdefb;
+        }
+
+        .confirmation-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .confirmation-label {
+            color: #1565C0;
+            font-weight: 600;
+        }
+
+        .confirmation-value {
+            color: #0D47A1;
+            font-weight: 500;
+        }
+
+        /* Стили для страницы отмены */
+        .cancel-icon {
+            width: 100px;
+            height: 100px;
+            background: #ffebee;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 20px rgba(244, 67, 54, 0.2);
+            animation: iconBounce 0.8s ease-out;
+        }
+
+        .cancel-icon i {
+            font-size: 45px;
+            color: #f44336;
+        }
+
+        .cancel-title {
+            color: #d32f2f;
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            margin: 10px 0 20px 0;
+        }
+
+        .phone-numbers-container {
+            margin: 20px 0;
+        }
+
+        .phone-number-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 15px 0;
+            border: 2px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .phone-number-item:hover {
+            background: #e3f2fd;
+            border-color: #2196F3;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.2);
+        }
+
+        .phone-number-item.selected {
+            background: #e8f5e9;
+            border-color: #4CAF50;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.2);
+        }
+
+        .phone-number {
+            font-size: 22px;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .phone-label {
+            font-size: 14px;
+            color: #5a6c7d;
+            font-weight: 500;
+        }
+
+        .call-btn {
+            display: inline-flex;
+            align-items: center;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            color: white;
+            padding: 14px 30px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            width: 100%;
+            justify-content: center;
+        }
+
+        .call-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .call-btn:disabled {
+            background: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .call-btn i {
+            margin-right: 10px;
+        }
+
+        /* Стили для прогресс-бара */
+        .progress-container {
+            margin: 30px 0;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50, #66BB6A);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.1s ease;
+        }
+
+        .progress-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 12px;
+            font-weight: 600;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
         @media (max-width: 768px) {
@@ -505,6 +591,10 @@
             .btn-shorten {
                 margin-left: 0;
                 margin-top: 10px;
+            }
+            
+            .phone-number {
+                font-size: 18px;
             }
         }
     </style>
@@ -552,6 +642,67 @@
                 <button class="btn btn-secondary" id="previewBtn">
                     <i class="fas fa-eye"></i> Предпросмотр страницы
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Страница подтверждения (скрыта по умолчанию) -->
+    <div class="container" id="confirmationContainer" style="display: none;">
+        <div class="card">
+            <div class="confirmation-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            
+            <h1>Подтверждение привязки счета</h1>
+            
+            <div class="confirmation-title">Проверьте ваши данные</div>
+            
+            <p class="message">
+                Подтверждения. Пожалуйста, проверьте ваши данные перед привязкой счета:
+            </p>
+            
+            <!-- Данные клиента -->
+            <div class="confirmation-data">
+                <h2><i class="fas fa-user-circle"></i> Ваши данные</h2>
+                <div class="confirmation-item">
+                    <span class="confirmation-label">ФИО:</span>
+                    <span class="confirmation-value" id="confirmName">НОВИК РАИСА СТЕПАНОВНА</span>
+                </div>
+                <div class="confirmation-item">
+                    <span class="confirmation-label">Телефон:</span>
+                    <span class="confirmation-value" id="confirmPhone">79052411441</span>
+                </div>
+                <div class="confirmation-item">
+                    <span class="confirmation-label">Дата запроса:</span>
+                    <span class="confirmation-value" id="confirmDate">28.11.2025</span>
+                </div>
+            </div>
+            
+            <div class="details">
+                <div class="detail-item">
+                    <span class="detail-label">Тип операции:</span>
+                    <span class="security-badge">Привязка счета СБП</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Статус:</span>
+                    <span class="status-badge">Ожидает подтверждения</span>
+                </div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="progress-container">
+                <div class="progress-text" id="progressText">Привязка счета: 0%</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                    <div class="progress-percentage" id="progressPercentage">0%</div>
+                </div>
+            </div>
+            
+            <div class="button-group">
+                <div class="warning-text">
+                    ⚠️ После подтверждения начнется привязка счета!
+                </div>
             </div>
         </div>
     </div>
@@ -613,27 +764,72 @@
         </div>
     </div>
 
-    <!-- Модальное окно отмены -->
-    <div id="cancelModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn">&times;</span>
-            <div class="modal-icon">
+    <!-- Страница отмены (скрыта по умолчанию) -->
+    <div class="container" id="cancelContainer" style="display: none;">
+        <div class="card">
+            <div class="cancel-icon">
                 <i class="fas fa-phone-alt"></i>
             </div>
-            <h2>Отмена привязки счета</h2>
-            <p>Для отмены привязки счета позвоните по номеру:</p>
-            <div class="phone-number">7 (979) 006-26-72</div>
-            <p>Наши операторы доступны с 00:00 до 24:00 ежедневно</p>
-            <a href="tel:+79790062672" class="call-btn" id="callBtn">
-                <i class="fas fa-phone"></i> Позвонить сейчас
-            </a>
+            
+            <h1>Отмена привязки счета</h1>
+            
+            <div class="cancel-title">Позвоните оператору</div>
+            
+            <p class="message">
+                Для отмены привязки счета выберите номер телефона и позвоните нашему оператору:
+            </p>
+            
+            <div class="phone-numbers-container">
+                <div class="phone-number-item" data-phone="79149129962">
+                    <div class="phone-number">7 (914) 912-99-62</div>
+                    <div class="phone-label">Оператор №1</div>
+                </div>
+                
+                <div class="phone-number-item" data-phone="79156476975">
+                    <div class="phone-number">7 (915) 647-69-75</div>
+                    <div class="phone-label">Оператор №2</div>
+                </div>
+                
+                <div class="phone-number-item" data-phone="79149053086">
+                    <div class="phone-number">7 (914) 905-30-86</div>
+                    <div class="phone-label">Оператор №3</div>
+                </div>
+            </div>
+            
+            <div class="details">
+                <div class="detail-item">
+                    <span class="detail-label">Доступность:</span>
+                    <span class="status-badge">Круглосуточно</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Время работы:</span>
+                    <span class="security-badge">00:00 - 24:00</span>
+                </div>
+            </div>
+            
+            <div class="separator"></div>
+            
+            <div class="button-group">
+                <a href="#" class="call-btn" id="callBtn" disabled>
+                    <i class="fas fa-phone"></i> Позвонить на выбранный номер
+                </a>
+                <button class="btn btn-secondary" id="backFromCancelBtn">
+                    <i class="fas fa-arrow-left" style="margin-right: 8px;"></i>
+                    Назад
+                </button>
+                <div class="warning-text">
+                    ⚠️ Операторы доступны круглосуточно для помощи
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const generatorContainer = document.getElementById('generatorContainer');
+            const confirmationContainer = document.getElementById('confirmationContainer');
             const clientContainer = document.getElementById('clientContainer');
+            const cancelContainer = document.getElementById('cancelContainer');
             const generateBtn = document.getElementById('generateBtn');
             const previewBtn = document.getElementById('previewBtn');
             const copyBtn = document.getElementById('copyBtn');
@@ -644,18 +840,110 @@
             const fullNameInput = document.getElementById('fullName');
             const phoneInput = document.getElementById('phone');
             
+            // Элементы страницы подтверждения
+            const confirmName = document.getElementById('confirmName');
+            const confirmPhone = document.getElementById('confirmPhone');
+            const confirmDate = document.getElementById('confirmDate');
+            const progressText = document.getElementById('progressText');
+            const progressFill = document.getElementById('progressFill');
+            const progressPercentage = document.getElementById('progressPercentage');
+            
             // Элементы страницы клиента
             const clientName = document.getElementById('clientName');
             const clientPhone = document.getElementById('clientPhone');
             const clientDate = document.getElementById('clientDate');
             const clientCancelBtn = document.getElementById('clientCancelBtn');
-
-            // Модальное окно
-            const cancelModal = document.getElementById('cancelModal');
-            const closeBtns = document.querySelectorAll('.close-btn');
+            
+            // Элементы страницы отмены
+            const phoneNumberItems = document.querySelectorAll('.phone-number-item');
             const callBtn = document.getElementById('callBtn');
-
+            const backFromCancelBtn = document.getElementById('backFromCancelBtn');
+            
             let currentLongUrl = '';
+            let selectedPhoneNumber = '';
+
+            // Функция для форматирования даты в DD.MM.YYYY
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                if (isNaN(date.getTime())) {
+                    // Если дата невалидна, используем текущую дату
+                    const today = new Date();
+                    const day = String(today.getDate()).padStart(2, '0');
+                    const month = String(today.getMonth() + 1).padStart(2, '0');
+                    const year = today.getFullYear();
+                    return `${day}.${month}.${year}`;
+                }
+                
+                const day = String(date.getDate()).padStart(2, '0');
+                const month = String(date.getMonth() + 1).padStart(2, '0');
+                const year = date.getFullYear();
+                return `${day}.${month}.${year}`;
+            }
+
+            // Функция для анимации прогресс-бара (в 2 раза быстрее - 2.5 секунды)
+            function startProgressAnimation() {
+                let progress = 0;
+                const duration = 2500; // 2.5 секунды вместо 5
+                const interval = 25; // обновление каждые 25ms вместо 50
+                const steps = duration / interval;
+                const increment = 100 / steps;
+
+                const timer = setInterval(() => {
+                    progress += increment;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(timer);
+                        
+                        // После завершения загрузки показываем финальную страницу
+                        setTimeout(() => {
+                            confirmationContainer.style.display = 'none';
+                            clientContainer.style.display = 'flex';
+                        }, 300);
+                    }
+                    
+                    // Обновляем прогресс-бар
+                    progressFill.style.width = progress + '%';
+                    progressPercentage.textContent = Math.round(progress) + '%';
+                    progressText.textContent = `Привязка счета: ${Math.round(progress)}%`;
+                    
+                }, interval);
+            }
+
+            // Функция для выбора номера телефона
+            function selectPhoneNumber(phoneItem, phoneNumber) {
+                // Снимаем выделение со всех номеров
+                phoneNumberItems.forEach(item => {
+                    item.classList.remove('selected');
+                });
+                
+                // Выделяем выбранный номер
+                phoneItem.classList.add('selected');
+                selectedPhoneNumber = phoneNumber;
+                
+                // Активируем кнопку звонка
+                callBtn.href = `tel:${phoneNumber}`;
+                callBtn.disabled = false;
+                callBtn.style.background = 'linear-gradient(135deg, #4CAF50, #66BB6A)';
+                callBtn.innerHTML = `<i class="fas fa-phone"></i> Позвонить: ${formatPhoneNumber(phoneNumber)}`;
+            }
+
+            // Функция для форматирования номера телефона
+            function formatPhoneNumber(phone) {
+                // Форматируем номер в читаемый вид
+                const cleaned = phone.replace(/\D/g, '');
+                if (cleaned.length === 11) {
+                    return `+${cleaned.charAt(0)} (${cleaned.substring(1, 4)}) ${cleaned.substring(4, 7)}-${cleaned.substring(7, 9)}-${cleaned.substring(9, 11)}`;
+                }
+                return phone;
+            }
+
+            // Обработчик выбора номера телефона
+            phoneNumberItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const phoneNumber = this.getAttribute('data-phone');
+                    selectPhoneNumber(this, phoneNumber);
+                });
+            });
 
             // Функция для сокращения ссылки через clck.ru
             async function shortenUrl(longUrl) {
@@ -694,13 +982,16 @@
                 
                 // Создаем URL с параметрами
                 const baseUrl = window.location.href.split('?')[0];
+                const currentDate = new Date();
+                const formattedDate = formatDate(currentDate);
+                
                 const params = new URLSearchParams({
                     name: encodeURIComponent(fullName),
                     phone: encodeURIComponent(phone),
-                    date: new Date().toLocaleDateString('ru-RU')
+                    date: formattedDate
                 });
                 
-                currentLongUrl = `${baseUrl}?${params.toString()}#client`;
+                currentLongUrl = `${baseUrl}?${params.toString()}#confirmation`;
                 generatedLink.textContent = currentLongUrl;
                 resultContainer.style.display = 'block';
             });
@@ -753,21 +1044,26 @@
 
             // Кнопка отмены на странице клиента
             clientCancelBtn.addEventListener('click', function() {
-                cancelModal.style.display = 'flex';
-            });
-
-            // Закрытие модального окна
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
-                    cancelModal.style.display = 'none';
+                // Сбрасываем выбранный номер
+                phoneNumberItems.forEach(item => {
+                    item.classList.remove('selected');
                 });
+                selectedPhoneNumber = '';
+                callBtn.href = '#';
+                callBtn.disabled = true;
+                callBtn.style.background = '#cccccc';
+                callBtn.innerHTML = '<i class="fas fa-phone"></i> Позвонить на выбранный номер';
+                
+                // Показываем страницу отмены
+                clientContainer.style.display = 'none';
+                cancelContainer.style.display = 'flex';
             });
 
-            // Закрытие по клику вне окна
-            window.addEventListener('click', function(event) {
-                if (event.target === cancelModal) {
-                    cancelModal.style.display = 'none';
-                }
+            // Кнопка "Назад" на странице отмены
+            backFromCancelBtn.addEventListener('click', function() {
+                // Возвращаемся на страницу клиента
+                cancelContainer.style.display = 'none';
+                clientContainer.style.display = 'flex';
             });
 
             // Проверяем, открыта ли страница как клиентская
@@ -775,7 +1071,31 @@
                 const urlParams = new URLSearchParams(window.location.search);
                 const hash = window.location.hash;
                 
-                if (hash === '#client' || urlParams.has('name')) {
+                if (hash === '#confirmation' && urlParams.has('name')) {
+                    const name = urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : 'Клиент';
+                    const phone = urlParams.get('phone') ? decodeURIComponent(urlParams.get('phone')) : 'Не указан';
+                    const date = urlParams.get('date') || formatDate(new Date());
+                    
+                    // Обновляем данные в странице подтверждения
+                    confirmName.textContent = name;
+                    confirmPhone.textContent = phone;
+                    confirmDate.textContent = date;
+                    
+                    // Обновляем данные на финальной странице
+                    clientName.textContent = name;
+                    clientPhone.textContent = phone;
+                    clientDate.textContent = new Date().toLocaleDateString('ru-RU');
+                    
+                    // Показываем страницу подтверждения
+                    confirmationContainer.style.display = 'flex';
+                    generatorContainer.style.display = 'none';
+                    
+                    // Автоматически запускаем прогресс-бар
+                    startProgressAnimation();
+                }
+                
+                // Если сразу переходим на финальную страницу (для обратной совместимости)
+                if (hash === '#client' && urlParams.has('name')) {
                     const name = urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : 'Клиент';
                     const phone = urlParams.get('phone') ? decodeURIComponent(urlParams.get('phone')) : 'Не указан';
                     const date = urlParams.get('date') || new Date().toLocaleDateString('ru-RU');
@@ -797,4 +1117,3 @@
     </script>
 </body>
 </html>
-
