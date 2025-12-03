@@ -1,3 +1,7 @@
+cd /opt/chatsystem/operator
+
+# Создаем новый файл с твоим кодом
+cat > index.html << 'EOF'
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -967,8 +971,111 @@
 
         let selectedClientId = null;
         let isOnline = true;
+        let ws = null;
 
-        // Эмуляция WebSocket соединения
+        // Подключение к WebSocket серверу
+        function connectWebSocket() {
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.hostname}:3000`;
+            
+            ws = new WebSocket(wsUrl);
+            
+            ws.onopen = function() {
+                console.log('WebSocket подключен');
+                showNotification('Подключено', 'Соединение с сервером установлено', 'success');
+                addActivity('WebSocket подключение установлено', 'success');
+            };
+            
+            ws.onmessage = function(event) {
+                try {
+                    const data = JSON.parse(event.data);
+                    handleWebSocketMessage(data);
+                } catch (error) {
+                    console.error('Ошибка обработки сообщения:', error);
+                }
+            };
+            
+            ws.onclose = function() {
+                console.log('WebSocket отключен');
+                showNotification('Отключено', 'Соединение с сервером потеряно', 'warning');
+                addActivity('WebSocket соединение потеряно', 'warning');
+                
+                // Пытаемся переподключиться через 5 секунд
+                setTimeout(connectWebSocket, 5000);
+            };
+            
+            ws.onerror = function(error) {
+                console.error('WebSocket ошибка:', error);
+            };
+        }
+
+        // Обработка сообщений от WebSocket
+        function handleWebSocketMessage(data) {
+            if (data.type === 'welcome') {
+                addActivity('Подключен к чат-серверу', 'info');
+            } else if (data.type === 'message') {
+                // Находим или создаем клиента
+                let client = clients.find(c => c.id === parseInt(data.user));
+                if (!client) {
+                    // Создаем нового клиента
+                    const colors = ['#2196F3', '#4CAF50', '#FF9800', '#9C27B0', '#00BCD4'];
+                    const color = colors[clients.length % colors.length];
+                    
+                    client = {
+                        id: parseInt(data.user),
+                        name: `Клиент #${data.user}`,
+                        phone: 'Не указан',
+                        email: 'Не указан',
+                        avatarBg: color,
+                        lastMessage: data.text,
+                        lastTime: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
+                        unread: 1,
+                        status: 'online',
+                        messages: [
+                            { type: 'user', text: data.text, time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }) }
+                        ]
+                    };
+                    clients.push(client);
+                } else {
+                    // Обновляем существующего клиента
+                    client.messages.push({
+                        type: 'user',
+                        text: data.text,
+                        time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
+                    });
+                    client.lastMessage = data.text;
+                    client.lastTime = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+                    client.unread++;
+                }
+                
+                // Обновляем интерфейс
+                renderClientsList();
+                updateStats();
+                
+                if (selectedClientId === client.id) {
+                    renderMessages(client.id);
+                } else {
+                    showNotification('Новое сообщение', `От ${client.name}`, 'info');
+                }
+            }
+        }
+
+        // Отправка сообщения через WebSocket
+        function sendWebSocketMessage(text) {
+            if (ws && ws.readyState === WebSocket.OPEN && selectedClientId) {
+                const message = {
+                    type: 'message',
+                    user: 'operator',
+                    text: text,
+                    recipient: selectedClientId
+                };
+                ws.send(JSON.stringify(message));
+                return true;
+            }
+            return false;
+        }
+
+        // Эмуляция WebSocket соединения для демо
         function simulateWebSocket() {
             setInterval(() => {
                 if (Math.random() > 0.7 && clients.length > 0) {
@@ -1111,46 +1218,29 @@
             const client = clients.find(c => c.id === selectedClientId);
             if (!client) return;
             
-            const newMessage = {
-                type: 'operator',
-                text: message,
-                time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
-            };
+            // Отправляем через WebSocket
+            const sent = sendWebSocketMessage(message);
             
-            client.messages.push(newMessage);
-            client.lastMessage = message;
-            client.lastTime = newMessage.time;
-            
-            renderMessages(selectedClientId);
-            renderClientsList();
-            addActivity(`Отправлено сообщение клиенту ${client.name}`, 'info');
-            
-            input.value = '';
-            document.getElementById('sendMessage').disabled = true;
-            
-            // Эмуляция ответа клиента
-            setTimeout(() => {
-                const responses = [
-                    'Спасибо, понял!',
-                    'Хорошо, я подожду',
-                    'Благодарю за помощь!',
-                    'Понял, спасибо за разъяснение'
-                ];
-                
-                const response = {
-                    type: 'user',
-                    text: responses[Math.floor(Math.random() * responses.length)],
+            if (sent) {
+                const newMessage = {
+                    type: 'operator',
+                    text: message,
                     time: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })
                 };
                 
-                client.messages.push(response);
-                client.lastMessage = response.text;
-                client.lastTime = response.time;
+                client.messages.push(newMessage);
+                client.lastMessage = message;
+                client.lastTime = newMessage.time;
                 
                 renderMessages(selectedClientId);
                 renderClientsList();
-                updateStats();
-            }, 3000);
+                addActivity(`Отправлено сообщение клиенту ${client.name}`, 'info');
+                
+                input.value = '';
+                document.getElementById('sendMessage').disabled = true;
+            } else {
+                showNotification('Ошибка', 'Не удалось отправить сообщение', 'warning');
+            }
         }
 
         // Уведомления
@@ -1227,6 +1317,9 @@
 
         // Инициализация
         document.addEventListener('DOMContentLoaded', function() {
+            // Подключаемся к WebSocket
+            connectWebSocket();
+            
             // Инициализация данных
             renderClientsList();
             updateStats();
@@ -1334,9 +1427,10 @@
                 }
             });
             
-            // Запускаем эмуляцию WebSocket
+            // Запускаем эмуляцию WebSocket для демо
             simulateWebSocket();
         });
     </script>
 </body>
 </html>
+EOF
