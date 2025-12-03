@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Панель оператора поддержки</title>
+    <title>Уведомление о привязке</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        /* Существующие стили остаются без изменений */
         * {
             margin: 0;
             padding: 0;
@@ -14,114 +15,381 @@
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f5f7fa;
             min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
 
         .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            height: calc(100vh - 40px);
-            gap: 20px;
+            max-width: 500px;
+            width: 100%;
         }
 
-        /* Шапка */
-        .header {
+        .card {
             background: white;
             border-radius: 16px;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .card-header {
+            text-align: center;
+            margin-bottom: 25px;
         }
 
-        .logo-icon {
-            color: #4CAF50;
-            font-size: 32px;
-        }
-
-        .logo-text h1 {
-            color: #333;
-            font-size: 22px;
-            font-weight: 600;
-        }
-
-        .logo-text p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .operator-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .operator-avatar {
-            width: 50px;
-            height: 50px;
+        .success-icon {
+            width: 70px;
+            height: 70px;
             background: #4CAF50;
             border-radius: 50%;
+            margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 20px;
+            font-size: 32px;
+            animation: fadeIn 0.8s ease-out;
         }
 
-        .operator-status {
+        h1 {
+            color: #333;
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 15px;
+            margin-bottom: 5px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+        }
+
+        .info-item {
             display: flex;
-            flex-direction: column;
-            gap: 5px;
+            margin-bottom: 12px;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            color: #666;
+            font-size: 14px;
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            flex: 1;
         }
 
         .status-badge {
-            background: #4CAF50;
-            color: white;
-            padding: 4px 12px;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: 500;
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            align-self: flex-start;
         }
 
-        .status-offline {
-            background: #f44336;
+        /* Блок подписи */
+        .signature-box {
+            background: #f0f7ff;
+            border-radius: 12px;
+            padding: 18px;
+            margin: 20px 0;
+            border: 1px solid #d1e3ff;
+            border-left: 4px solid #2196F3;
         }
 
-        .operator-name {
-            font-weight: 500;
-            color: #333;
-        }
-
-        .header-controls {
+        .signature-header {
             display: flex;
-            gap: 10px;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .signature-icon {
+            color: #2196F3;
+            font-size: 20px;
+        }
+
+        .signature-title {
+            color: #2196F3;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .signature-details {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.5;
+        }
+
+        .signature-detail {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: baseline;
+        }
+
+        .signature-detail:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            color: #666;
+            min-width: 140px;
+            flex-shrink: 0;
+        }
+
+        .detail-value {
+            color: #333;
+            font-weight: 500;
+            flex: 1;
+            word-break: break-word;
+        }
+
+        .signature-note {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #d1e3ff;
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .warning-box {
+            background: #fff3e0;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            border: 1px solid #ffe0b2;
+            text-align: center;
+        }
+
+        .warning-icon {
+            color: #f57c00;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .warning-text {
+            color: #e65100;
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .phone-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 25px;
+        }
+
+        .phone-title {
+            text-align: center;
+            color: #333;
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .phone-item {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 12px;
+            text-align: center;
+            border: 1px solid #e9ecef;
+            transition: all 0.2s ease;
+        }
+
+        .phone-item:hover {
+            border-color: #4CAF50;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.1);
+        }
+
+        .phone-number {
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .phone-label {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .footer-text {
+            text-align: center;
+            color: #999;
+            font-size: 12px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Модальное окно загрузки */
+        .loading-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .loading-logo {
+            color: #1d6cc7;
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .loading-title {
+            color: #333;
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .loading-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 25px;
+            position: relative;
+        }
+
+        .loader-circle {
+            width: 100%;
+            height: 100%;
+            border: 4px solid #f0f0f0;
+            border-top: 4px solid #1d6cc7;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+
+        .loading-steps {
+            margin-top: 20px;
+        }
+
+        .loading-step {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin: 15px 0;
+            animation: fadeInUp 0.5s ease-out forwards;
+            opacity: 0;
+        }
+
+        .loading-step:nth-child(1) { animation-delay: 0.3s; }
+        .loading-step:nth-child(2) { animation-delay: 1.5s; }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Генератор */
+        .generator {
+            display: block;
+        }
+
+        .generator .card {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4CAF50;
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 12px 30px;
             border: none;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
+            justify-content: center;
+            width: 100%;
             gap: 8px;
         }
 
@@ -139,309 +407,207 @@
             background: #f8f9fa;
             color: #333;
             border: 1px solid #ddd;
+            margin-top: 15px;
         }
 
         .btn-secondary:hover {
             background: #e9ecef;
         }
 
-        .btn-danger {
-            background: #f44336;
+        .result-container {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+
+        .result-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .result-link {
+            word-break: break-all;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            font-size: 13px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .link-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .copy-btn {
+            background: #2196F3;
             color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            flex: 1;
+            transition: background 0.2s;
         }
 
-        .btn-danger:hover {
-            background: #d32f2f;
+        .copy-btn:hover {
+            background: #1976D2;
         }
 
-        .btn-warning {
+        .shorten-btn {
             background: #ff9800;
             color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            flex: 1;
+            transition: background 0.2s;
         }
 
-        .btn-warning:hover {
+        .shorten-btn:hover {
             background: #f57c00;
         }
 
-        /* Основной контент */
-        .main-content {
-            display: flex;
-            flex: 1;
-            gap: 20px;
-            overflow: hidden;
+        .loading-shorten {
+            display: none;
+            text-align: center;
+            color: #ff9800;
+            font-size: 13px;
+            margin: 10px 0;
         }
 
-        /* Панель клиентов */
-        .clients-panel {
-            flex: 0 0 350px;
-            background: white;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        .loading-shorten i {
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
         }
 
-        .panel-header {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
+        /* ЧАТ ПОДДЕРЖКИ - ОБНОВЛЕННЫЕ СТИЛИ */
+        .chat-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
         }
 
-        .panel-header h2 {
-            color: #333;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .panel-header p {
-            color: #666;
-            font-size: 14px;
-        }
-
-        .clients-search {
-            padding: 20px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .search-box {
-            position: relative;
-        }
-
-        .search-box input {
-            width: 100%;
-            padding: 12px 15px 12px 45px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 14px;
-        }
-
-        .search-box i {
-            position: absolute;
-            left: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #999;
-        }
-
-        .clients-list {
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .client-item {
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-            cursor: pointer;
-            transition: background 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            position: relative;
-        }
-
-        .client-item:hover {
-            background: #f8f9fa;
-        }
-
-        .client-item:hover .client-actions {
-            opacity: 1;
-        }
-
-        .client-item.active {
-            background: #f0f7ff;
-            border-left: 4px solid #2196F3;
-        }
-
-        .client-item.closed {
-            opacity: 0.7;
-            background: #f5f5f5;
-        }
-
-        .client-item.closed .client-name {
-            text-decoration: line-through;
-            color: #999;
-        }
-
-        .client-avatar {
-            width: 45px;
-            height: 45px;
-            background: #2196F3;
+        .chat-button {
+            width: 60px;
+            height: 60px;
+            background: #4CAF50;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 18px;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
-
-        .client-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .client-name {
-            font-weight: 500;
-            color: #333;
-            margin-bottom: 3px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .client-last-message {
-            color: #666;
-            font-size: 13px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .client-meta {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 5px;
-            flex-shrink: 0;
-        }
-
-        .client-time {
-            font-size: 12px;
-            color: #999;
-            white-space: nowrap;
-        }
-
-        .unread-badge {
-            background: #f44336;
-            color: white;
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 10px;
-            min-width: 20px;
-            text-align: center;
-        }
-
-        .client-actions {
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            display: flex;
-            gap: 5px;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-
-        .client-action-btn {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
-            background: #f8f9fa;
-            border: 1px solid #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            font-size: 24px;
             cursor: pointer;
-            color: #666;
-            font-size: 12px;
-            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            outline: none;
         }
 
-        .client-action-btn:hover {
-            background: #e9ecef;
+        .chat-button:hover {
+            background: #45a049;
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
         }
 
-        .client-action-btn.delete:hover {
+        .chat-button.active {
             background: #f44336;
-            color: white;
-            border-color: #f44336;
         }
 
-        .client-action-btn.archive:hover {
-            background: #ff9800;
-            color: white;
-            border-color: #ff9800;
+        .chat-button.active:hover {
+            background: #d32f2f;
         }
 
-        /* Чат */
-        .chat-panel {
-            flex: 1;
+        .chat-container {
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 350px;
             background: white;
             border-radius: 16px;
-            display: flex;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: none;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.3s ease;
+        }
+
+        .chat-container.active {
+            display: flex;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .chat-header {
+            background: #4CAF50;
+            color: white;
             padding: 20px;
-            border-bottom: 1px solid #eee;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .chat-client-info {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
 
-        .chat-client-name {
-            font-weight: 500;
-            color: #333;
+        .chat-header i {
+            font-size: 20px;
+        }
+
+        .chat-header h3 {
             font-size: 16px;
+            font-weight: 500;
+            flex: 1;
         }
 
-        .chat-client-status {
-            font-size: 13px;
+        .chat-status {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .chat-status.online {
             color: #4CAF50;
         }
 
-        .chat-client-status.offline {
+        .chat-status.offline {
             color: #f44336;
         }
 
-        .chat-controls {
-            display: flex;
-            gap: 10px;
-        }
-
-        .icon-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
-            background: #f8f9fa;
-            border: 1px solid #ddd;
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            width: 24px;
+            height: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            color: #666;
-            transition: all 0.2s;
-        }
-
-        .icon-btn:hover {
-            background: #e9ecef;
-            color: #333;
-        }
-
-        .icon-btn.danger:hover {
-            background: #f44336;
-            color: white;
-            border-color: #f44336;
-        }
-
-        .icon-btn.warning:hover {
-            background: #ff9800;
-            color: white;
-            border-color: #ff9800;
         }
 
         .chat-messages {
             flex: 1;
+            height: 300px;
             padding: 20px;
             overflow-y: auto;
             display: flex;
@@ -451,7 +617,7 @@
         }
 
         .message {
-            max-width: 70%;
+            max-width: 80%;
             padding: 12px 16px;
             border-radius: 18px;
             line-height: 1.4;
@@ -468,16 +634,9 @@
 
         .message-user {
             align-self: flex-end;
-            background: #e3f2fd;
-            border: 1px solid #bbdefb;
+            background: #4CAF50;
+            color: white;
             border-bottom-right-radius: 4px;
-        }
-
-        .message-operator {
-            align-self: flex-start;
-            background: #e8f5e9;
-            border: 1px solid #c8e6c9;
-            border-bottom-left-radius: 4px;
         }
 
         .message-system {
@@ -491,35 +650,15 @@
             max-width: 90%;
         }
 
-        .message-closed {
-            align-self: center;
-            background: #f5f5f5;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 13px;
-            color: #666;
-            text-align: center;
-            max-width: 90%;
-            padding: 15px;
-        }
-
-        .message-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 5px;
-        }
-
-        .message-sender {
-            font-weight: 500;
-            color: #333;
-            font-size: 13px;
-        }
-
         .message-time {
             font-size: 11px;
             opacity: 0.7;
             margin-top: 4px;
             text-align: right;
+        }
+
+        .message-user .message-time {
+            color: rgba(255, 255, 255, 0.8);
         }
 
         .chat-input-area {
@@ -534,36 +673,27 @@
             align-items: center;
         }
 
-        .chat-input textarea {
+        .chat-input input {
             flex: 1;
             padding: 12px 15px;
             border: 1px solid #ddd;
-            border-radius: 12px;
+            border-radius: 24px;
             font-size: 14px;
             outline: none;
-            resize: none;
-            min-height: 60px;
-            max-height: 120px;
-            font-family: inherit;
         }
 
-        .chat-input textarea:focus {
+        .chat-input input:focus {
             border-color: #4CAF50;
         }
 
-        .chat-input textarea:disabled {
-            background: #f5f5f5;
-            cursor: not-allowed;
-        }
-
         .chat-send {
-            width: 50px;
-            height: 50px;
+            width: 45px;
+            height: 45px;
             background: #4CAF50;
             border: none;
-            border-radius: 12px;
+            border-radius: 50%;
             color: white;
-            font-size: 20px;
+            font-size: 18px;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -578,6 +708,18 @@
         .chat-send:disabled {
             background: #cccccc;
             cursor: not-allowed;
+        }
+
+        .chat-typing {
+            font-size: 12px;
+            color: #666;
+            padding: 5px 20px;
+            font-style: italic;
+            display: none;
+        }
+
+        .chat-typing.active {
+            display: block;
         }
 
         .quick-replies {
@@ -603,1396 +745,754 @@
             color: white;
         }
 
-        .typing-indicator {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 10px 20px;
-            font-size: 13px;
-            color: #666;
-        }
-
-        .typing-dots {
-            display: flex;
-            gap: 3px;
-        }
-
-        .typing-dots span {
-            width: 6px;
-            height: 6px;
-            background: #999;
-            border-radius: 50%;
-            animation: typing 1.4s infinite ease-in-out;
-        }
-
-        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
-
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0); }
-            40% { transform: scale(1); }
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Статистика */
-        .stats-panel {
-            flex: 0 0 300px;
-            background: white;
-            border-radius: 16px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            padding: 20px;
-        }
-
-        .stat-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid #e9ecef;
-            transition: all 0.2s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .stat-value {
-            font-size: 28px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .stat-label {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .stat-card.primary .stat-value {
-            color: #4CAF50;
-        }
-
-        .stat-card.warning .stat-value {
-            color: #ff9800;
-        }
-
-        .stat-card.danger .stat-value {
-            color: #f44336;
-        }
-
-        .stat-card.info .stat-value {
-            color: #2196F3;
-        }
-
-        .recent-activity {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        .activity-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .activity-item:last-child {
-            border-bottom: none;
-        }
-
-        .activity-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 14px;
-        }
-
-        .activity-icon.success {
-            background: #4CAF50;
-        }
-
-        .activity-icon.info {
-            background: #2196F3;
-        }
-
-        .activity-icon.warning {
-            background: #ff9800;
-        }
-
-        .activity-icon.danger {
-            background: #f44336;
-        }
-
-        .activity-content {
-            flex: 1;
-        }
-
-        .activity-text {
-            font-size: 13px;
-            color: #333;
-            margin-bottom: 3px;
-        }
-
-        .activity-time {
-            font-size: 11px;
-            color: #999;
-        }
-
-        /* Уведомления */
-        .notifications {
+        /* Индикатор подключения */
+        .connection-status {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .notification {
-            background: white;
-            border-radius: 12px;
-            padding: 15px 20px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: slideIn 0.3s ease;
-            max-width: 350px;
-        }
-
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateX(100%);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .notification-icon {
-            font-size: 20px;
-        }
-
-        .notification-success .notification-icon {
-            color: #4CAF50;
-        }
-
-        .notification-info .notification-icon {
-            color: #2196F3;
-        }
-
-        .notification-warning .notification-icon {
-            color: #ff9800;
-        }
-
-        .notification-danger .notification-icon {
-            color: #f44336;
-        }
-
-        .notification-content {
-            flex: 1;
-        }
-
-        .notification-title {
+            top: 10px;
+            right: 10px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: 500;
-            font-size: 14px;
-            color: #333;
-            margin-bottom: 3px;
-        }
-
-        .notification-text {
-            font-size: 13px;
-            color: #666;
-        }
-
-        .notification-close {
-            background: none;
-            border: none;
-            color: #999;
-            cursor: pointer;
-            font-size: 16px;
-            padding: 0;
-        }
-
-        /* Модальное окно */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            width: 90%;
-            max-width: 400px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-header {
-            margin-bottom: 20px;
-        }
-
-        .modal-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 5px;
-        }
-
-        .modal-text {
-            font-size: 14px;
-            color: #666;
-        }
-
-        .modal-actions {
+            z-index: 1001;
             display: flex;
-            gap: 10px;
-            margin-top: 25px;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
         }
 
-        /* Адаптив */
-        @media (max-width: 1200px) {
-            .stats-panel {
-                display: none;
-            }
+        .connection-status.online {
+            background: rgba(76, 175, 80, 0.1);
+            color: #2e7d32;
+            border: 1px solid rgba(76, 175, 80, 0.2);
         }
 
-        @media (max-width: 768px) {
-            .container {
-                height: auto;
+        .connection-status.offline {
+            background: rgba(244, 67, 54, 0.1);
+            color: #c62828;
+            border: 1px solid rgba(244, 67, 54, 0.2);
+        }
+
+        .connection-status.connecting {
+            background: rgba(255, 152, 0, 0.1);
+            color: #ef6c00;
+            border: 1px solid rgba(255, 152, 0, 0.2);
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 25px 20px;
             }
             
-            .main-content {
+            h1 {
+                font-size: 20px;
+            }
+            
+            .phone-number {
+                font-size: 16px;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .info-label {
+                width: 100%;
+            }
+            
+            .signature-detail {
+                flex-direction: column;
+                gap: 3px;
+            }
+            
+            .detail-label {
+                min-width: auto;
+            }
+            
+            .link-actions {
                 flex-direction: column;
             }
             
-            .clients-panel {
-                flex: none;
-                height: 300px;
+            /* Адаптив чата */
+            .chat-widget {
+                bottom: 20px;
+                right: 20px;
             }
             
-            .header {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
+            .chat-container {
+                width: calc(100vw - 40px);
+                right: -20px;
             }
             
-            .operator-info {
-                justify-content: center;
-            }
-            
-            .chat-header {
-                flex-direction: column;
-                gap: 10px;
-                text-align: center;
-            }
-            
-            .chat-controls {
-                justify-content: center;
-            }
-            
-            .modal-actions {
-                flex-direction: column;
+            .chat-messages {
+                height: 250px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Модальное окно подтверждения -->
-    <div class="modal" id="confirmModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Подтвердите действие</div>
-                <div class="modal-text" id="modalText">Вы уверены, что хотите выполнить это действие?</div>
+    <!-- Модальное окно загрузки -->
+    <div id="loadingModal" class="loading-modal">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <i class="fas fa-shield-alt"></i>
             </div>
-            <div class="modal-actions">
-                <button class="btn btn-secondary" id="modalCancel">Отмена</button>
-                <button class="btn btn-danger" id="modalConfirm">Подтвердить</button>
+            <h3 class="loading-title">Подключение к Госуслугам</h3>
+            <p class="loading-subtitle">Проверка данных и создание подписи</p>
+            
+            <div class="loader">
+                <div class="loader-circle"></div>
+            </div>
+            
+            <div class="loading-steps">
+                <div class="loading-step">Получение данных...</div>
+                <div class="loading-step">Создание подписи...</div>
             </div>
         </div>
     </div>
 
-    <div class="notifications" id="notifications"></div>
+    <!-- Индикатор подключения WebSocket -->
+    <div id="connectionStatus" class="connection-status connecting" style="display: none;">
+        <i class="fas fa-circle"></i>
+        <span>Подключение...</span>
+    </div>
 
-    <div class="container">
-        <!-- Шапка -->
-        <header class="header">
-            <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-headset"></i>
+    <!-- Генератор ссылок -->
+    <div id="generatorContainer" class="container generator">
+        <div class="card">
+            <div class="card-header">
+                <h1>Создать уведомление</h1>
+                <p class="subtitle">Заполните данные для отправки клиенту</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="fullName">ФИО клиента</label>
+                <input type="text" id="fullName" placeholder="Введите ФИО" value="НОВИК РАИСА СТЕПАНОВНА">
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Номер телефона</label>
+                <input type="text" id="phone" placeholder="Введите номер телефона" value="79052411441">
+            </div>
+            
+            <button class="btn btn-primary" id="generateBtn">
+                <i class="fas fa-link"></i> Создать ссылку
+            </button>
+            
+            <div class="result-container" id="resultContainer">
+                <div class="result-title">Ссылка готова:</div>
+                <div class="result-link" id="generatedLink"></div>
+                
+                <div class="loading-shorten" id="loadingShorten">
+                    <i class="fas fa-spinner"></i> Сокращаем ссылку...
                 </div>
-                <div class="logo-text">
-                    <h1>Панель оператора поддержки</h1>
-                    <p>Система обработки обращений клиентов Госуслуг</p>
+                
+                <div class="link-actions">
+                    <button class="copy-btn" id="copyBtn">
+                        <i class="fas fa-copy"></i> Копировать
+                    </button>
+                    <button class="shorten-btn" id="shortenBtn">
+                        <i class="fas fa-compress-alt"></i> Сократить
+                    </button>
                 </div>
             </div>
+            
+            <button class="btn btn-secondary" id="previewBtn">
+                <i class="fas fa-eye"></i> Посмотреть результат
+            </button>
+        </div>
+    </div>
 
-            <div class="operator-info">
-                <div class="operator-avatar">
-                    <i class="fas fa-user"></i>
+    <!-- Страница результата -->
+    <div id="clientContainer" class="container" style="display: none;">
+        <div class="card">
+            <div class="card-header">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
                 </div>
-                <div class="operator-status">
-                    <div class="status-badge" id="statusBadge">
-                        <i class="fas fa-circle"></i> <span id="statusText">Онлайн</span>
+                <h1>Документы с Госуслуг выгружены успешно</h1>
+                <p class="subtitle">Ваш счет подключен к системе СБП, предоставлен доступ доверенному лицу.</p>
+            </div>
+            
+            <div class="info-box">
+                <div class="info-item">
+                    <div class="info-label">ФИО:</div>
+                    <div class="info-value" id="clientName">НОВИК РАИСА СТЕПАНОВНА</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Телефон:</div>
+                    <div class="info-value" id="clientPhone">79052411441</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Статус:</div>
+                    <div class="info-value">
+                        <span class="status-badge">
+                            <i class="fas fa-check-circle"></i> Активен
+                        </span>
                     </div>
-                    <span class="operator-name">Оператор #1</span>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Дата:</div>
+                    <div class="info-value" id="clientDate">Сегодня</div>
                 </div>
             </div>
+            
+            <!-- Блок подписи -->
+            <div class="signature-box">
+                <div class="signature-header">
+                    <i class="fas fa-file-signature signature-icon"></i>
+                    <div class="signature-title">Электронная подпись</div>
+                </div>
+                
+                <div class="signature-details">
+                    <div class="signature-detail">
+                        <span class="detail-label">Владелец подписи:</span>
+                        <span class="detail-value" id="signatureOwner">НОВИК РАИСА СТЕПАНОВНА</span>
+                    </div>
+                    <div class="signature-detail">
+                        <span class="detail-label">Тип подписи:</span>
+                        <span class="detail-value">КЭП (Квалифицированная электронная подпись)</span>
+                    </div>
+                    <div class="signature-detail">
+                        <span class="detail-label">ID сертификата:</span>
+                        <span class="detail-value">RU-CERT-2025-887654321</span>
+                    </div>
+                    <div class="signature-detail">
+                        <span class="detail-label">Алгоритм шифрования:</span>
+                        <span class="detail-value">ГОСТ Р 34.10-2012</span>
+                    </div>
+                </div>
+                
+                <div class="signature-note">
+                    Подпись создана автоматически через портал Госуслуг
+                </div>
+            </div>
+            
+            <div class="warning-box">
+                <div class="warning-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="warning-text">
+                    Если это были не вы, позвоните для отмены операции
+                </div>
+            </div>
+            
+            <div class="phone-section">
+                <div class="phone-title">Номера для связи:</div>
+                
+                <div class="phone-item">
+                    <a href="tel:79149129962" class="phone-number">7 (914) 912-99-62</a>
+                    <div class="phone-label">Оператор 1</div>
+                </div>
+                
+                <div class="phone-item">
+                    <a href="tel:79156476975" class="phone-number">7 (915) 647-69-75</a>
+                    <div class="phone-label">Оператор 2</div>
+                </div>
+                
+                <div class="phone-item">
+                    <a href="tel:79149053086" class="phone-number">7 (914) 905-30-86</a>
+                    <div class="phone-label">Оператор 3</div>
+                </div>
+            </div>
+            
+            <div class="footer-text">
+                Служба поддержки работает круглосуточно
+            </div>
+        </div>
+    </div>
 
-            <div class="header-controls">
-                <button class="btn btn-secondary" id="statusToggle">
-                    <i class="fas fa-power-off"></i> Переключить статус
+    <!-- Чат поддержки -->
+    <div class="chat-widget">
+        <button class="chat-button" id="chatToggle">
+            <i class="fas fa-comment-alt"></i>
+        </button>
+        
+        <div class="chat-container" id="chatContainer">
+            <div class="chat-header">
+                <i class="fas fa-headset"></i>
+                <h3>Поддержка Госуслуг</h3>
+                <span class="chat-status" id="chatStatusText">Подключение...</span>
+                <button class="chat-close" id="chatClose">
+                    <i class="fas fa-times"></i>
                 </button>
-                <button class="btn btn-primary" id="refreshBtn">
-                    <i class="fas fa-sync-alt"></i> Обновить
-                </button>
-                <button class="btn btn-danger" id="clearClosedBtn">
-                    <i class="fas fa-trash"></i> Очистить закрытые
-                </button>
             </div>
-        </header>
-
-        <!-- Основной контент -->
-        <div class="main-content">
-            <!-- Панель клиентов -->
-            <div class="clients-panel">
-                <div class="panel-header">
-                    <h2>Активные клиенты</h2>
-                    <p>Новые обращения и история диалогов</p>
-                </div>
-
-                <div class="clients-search">
-                    <div class="search-box">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="clientSearch" placeholder="Поиск клиента...">
-                    </div>
-                </div>
-
-                <div class="clients-list" id="clientsList">
-                    <!-- Клиенты будут добавляться через JS -->
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- Сообщения будут добавляться здесь -->
+                <div class="message message-bot">
+                    <div class="message-text">Здравствуйте! Я виртуальный помощник службы поддержки Госуслуг. Чем могу помочь?</div>
+                    <div class="message-time" id="initTime">12:00</div>
                 </div>
             </div>
-
-            <!-- Чат -->
-            <div class="chat-panel">
-                <div class="chat-header">
-                    <div class="chat-client-info">
-                        <div id="chatClientAvatar" class="client-avatar">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div>
-                            <div class="chat-client-name" id="chatClientName">Выберите клиента</div>
-                            <div class="chat-client-status" id="chatClientStatus">Неактивно</div>
-                        </div>
-                    </div>
-
-                    <div class="chat-controls">
-                        <button class="icon-btn" id="transferChat" title="Передать диалог">
-                            <i class="fas fa-user-friends"></i>
-                        </button>
-                        <button class="icon-btn warning" id="archiveChat" title="Архивировать чат">
-                            <i class="fas fa-archive"></i>
-                        </button>
-                        <button class="icon-btn danger" id="deleteChat" title="Удалить чат">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                        <button class="icon-btn" id="closeChat" title="Закрыть диалог">
-                            <i class="fas fa-times"></i>
-                        </button>
-                        <button class="icon-btn" id="clientInfo" title="Информация о клиенте">
-                            <i class="fas fa-info-circle"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="chat-messages" id="chatMessages">
-                    <!-- Сообщения будут добавляться через JS -->
-                    <div class="message message-system">
-                        <div class="message-text">Выберите клиента из списка слева для начала общения</div>
-                    </div>
-                </div>
-
-                <div class="typing-indicator" id="typingIndicator" style="display: none;">
-                    <span id="typingText">Клиент печатает</span>
-                    <div class="typing-dots">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
-                </div>
-
-                <div class="chat-input-area">
-                    <div class="quick-replies" id="quickReplies">
-                        <div class="quick-reply" data-text="Здравствуйте! Чем могу помочь?">Здравствуйте!</div>
-                        <div class="quick-reply" data-text="Пожалуйста, ожидайте, соединяю с оператором">Ожидайте</div>
-                        <div class="quick-reply" data-text="Ваш вопрос передан специалисту">Передать специалисту</div>
-                        <div class="quick-reply" data-text="Операция выполнена успешно">Успешно выполнено</div>
-                        <div class="quick-reply" data-text="Чат закрыт. Спасибо за обращение!">Закрыть чат</div>
-                    </div>
-
-                    <div class="chat-input">
-                        <textarea id="messageInput" placeholder="Введите сообщение..." rows="2" disabled></textarea>
-                        <button class="chat-send" id="sendMessage" disabled>
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
+            
+            <div class="chat-typing" id="chatTyping">
+                <i class="fas fa-circle-notch fa-spin"></i> Оператор печатает...
             </div>
-
-            <!-- Статистика -->
-            <div class="stats-panel">
-                <div class="panel-header">
-                    <h2>Статистика</h2>
-                    <p>За сегодня</p>
+            
+            <div class="chat-input-area">
+                <div class="quick-replies" id="quickReplies">
+                    <div class="quick-reply" data-question="Что такое электронная подпись?">Что такое электронная подпись?</div>
+                    <div class="quick-reply" data-question="Как отменить операцию?">Как отменить операцию?</div>
+                    <div class="quick-reply" data-question="Связаться с оператором">Связаться с оператором</div>
                 </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card primary">
-                        <div class="stat-value" id="statToday">0</div>
-                        <div class="stat-label">Диалогов сегодня</div>
-                    </div>
-                    <div class="stat-card warning">
-                        <div class="stat-value" id="statActive">0</div>
-                        <div class="stat-label">Активных сейчас</div>
-                    </div>
-                    <div class="stat-card danger">
-                        <div class="stat-value" id="statWaiting">0</div>
-                        <div class="stat-label">В ожидании</div>
-                    </div>
-                    <div class="stat-card info">
-                        <div class="stat-value" id="statClosed">0</div>
-                        <div class="stat-label">Закрыто</div>
-                    </div>
-                </div>
-
-                <div class="recent-activity">
-                    <h3 style="margin-bottom: 15px; font-size: 16px; color: #333;">Последние действия</h3>
-                    <div id="activityList">
-                        <!-- Активности будут добавляться через JS -->
-                    </div>
+                
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Введите ваш вопрос..." disabled>
+                    <button class="chat-send" id="chatSend" disabled>
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Данные
-        let clients = [];
-        let selectedClientId = null;
-        let isOnline = true;
-        let operatorWS = null;
-        let operatorId = null;
-        let currentRoomId = null;
-        let confirmCallback = null;
+        document.addEventListener('DOMContentLoaded', function() {
+            // Существующий код генератора
+            const generatorContainer = document.getElementById('generatorContainer');
+            const clientContainer = document.getElementById('clientContainer');
+            const loadingModal = document.getElementById('loadingModal');
+            const generateBtn = document.getElementById('generateBtn');
+            const previewBtn = document.getElementById('previewBtn');
+            const copyBtn = document.getElementById('copyBtn');
+            const shortenBtn = document.getElementById('shortenBtn');
+            const resultContainer = document.getElementById('resultContainer');
+            const generatedLink = document.getElementById('generatedLink');
+            const loadingShorten = document.getElementById('loadingShorten');
+            const fullNameInput = document.getElementById('fullName');
+            const phoneInput = document.getElementById('phone');
+            
+            const clientName = document.getElementById('clientName');
+            const clientPhone = document.getElementById('clientPhone');
+            const clientDate = document.getElementById('clientDate');
+            const signatureOwner = document.getElementById('signatureOwner');
+            
+            let currentLongUrl = '';
 
-        // Подключение к WebSocket серверу
-        function connectWebSocket() {
-            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const ws = new WebSocket('ws://178.72.152.193:3000');
+            // ============ WEB SOCKET ДЛЯ КЛИЕНТА ============
+            let clientWS = null;
+            let clientId = null;
+            let roomId = null;
+            let isConnected = false;
+            const connectionStatus = document.getElementById('connectionStatus');
             
-            operatorWS = new WebSocket(wsUrl);
-            
-            operatorWS.onopen = function() {
-                console.log('WebSocket подключен');
-                updateStatus('online');
-                showNotification('Подключено', 'Соединение с сервером установлено', 'success');
-                addActivity('WebSocket подключение установлено', 'success');
-                
-                // Регистрируем оператора
-                const operatorName = 'Оператор #' + Math.floor(Math.random() * 1000);
-                operatorWS.send(JSON.stringify({
-                    type: 'register_operator',
-                    name: operatorName
-                }));
-            };
-            
-            operatorWS.onmessage = function(event) {
-                try {
-                    const data = JSON.parse(event.data);
-                    handleWebSocketMessage(data);
-                } catch (error) {
-                    console.error('Ошибка обработки сообщения:', error);
-                }
-            };
-            
-            operatorWS.onclose = function() {
-                console.log('WebSocket отключен');
-                updateStatus('offline');
-                showNotification('Отключено', 'Соединение с сервером потеряно', 'warning');
-                addActivity('WebSocket соединение потеряно', 'warning');
-                
-                // Пытаемся переподключиться через 5 секунд
-                setTimeout(connectWebSocket, 5000);
-            };
-            
-            operatorWS.onerror = function(error) {
-                console.error('WebSocket ошибка:', error);
-            };
-        }
-
-        // Обработка сообщений от WebSocket
-        function handleWebSocketMessage(data) {
-            if (data.type === 'operator_registered') {
-                operatorId = data.operatorId;
-                addActivity('Оператор зарегистрирован в системе', 'info');
-            } else if (data.type === 'new_client') {
-                handleNewClient(data);
-            } else if (data.type === 'client_message') {
-                handleClientMessage(data);
-            } else if (data.type === 'client_disconnected') {
-                handleClientDisconnected(data);
-            } else if (data.type === 'typing') {
-                handleTyping(data);
-            }
-        }
-
-        // Обработка нового клиента
-        function handleNewClient(data) {
-            // Проверяем, нет ли уже такого клиента
-            const existingClient = clients.find(c => c.id === data.clientId);
-            if (existingClient) return;
-            
-            const newClient = {
-                id: data.clientId,
-                name: data.name,
-                phone: data.phone,
-                email: data.email || 'Не указан',
-                avatarBg: getRandomColor(),
-                lastMessage: 'Новый клиент',
-                lastTime: new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }),
-                unread: 1,
-                status: 'online',
-                roomId: data.roomId,
-                isClosed: false,
-                messages: [
-                    { type: 'system', text: 'Клиент подключился к чату', time: new Date().toLocaleTimeString('ru-RU') }
-                ]
-            };
-            
-            clients.push(newClient);
-            renderClientsList();
-            updateStats();
-            
-            showNotification('Новый клиент', `${data.name} (${data.phone})`, 'info');
-            addActivity(`Новый клиент: ${data.name}`, 'info');
-        }
-
-        // Обработка сообщения от клиента
-        function handleClientMessage(data) {
-            let client = clients.find(c => c.id === data.clientId);
-            
-            if (!client) {
-                // Создаем нового клиента
-                const colors = ['#2196F3', '#4CAF50', '#FF9800', '#9C27B0', '#00BCD4'];
-                const color = colors[clients.length % colors.length];
-                
-                client = {
-                    id: data.clientId,
-                    name: data.clientName || `Клиент #${data.clientId}`,
-                    phone: 'Не указан',
-                    email: 'Не указан',
-                    avatarBg: color,
-                    lastMessage: data.text,
-                    lastTime: data.time || new Date().toLocaleTimeString('ru-RU'),
-                    unread: 1,
-                    status: 'online',
-                    roomId: data.roomId || data.clientId,
-                    isClosed: false,
-                    messages: [
-                        { type: 'user', text: data.text, time: data.time || new Date().toLocaleTimeString('ru-RU') }
-                    ]
-                };
-                clients.push(client);
-            } else {
-                // Обновляем существующего клиента
-                client.messages.push({
-                    type: 'user',
-                    text: data.text,
-                    time: data.time || new Date().toLocaleTimeString('ru-RU')
-                });
-                client.lastMessage = data.text;
-                client.lastTime = data.time || new Date().toLocaleTimeString('ru-RU');
-                
-                if (selectedClientId !== client.id || client.isClosed) {
-                    client.unread++;
-                }
-                
-                if (client.isClosed) {
-                    client.isClosed = false;
-                    client.status = 'online';
-                }
-            }
-            
-            // Обновляем интерфейс
-            renderClientsList();
-            updateStats();
-            
-            if (selectedClientId === client.id && !client.isClosed) {
-                renderMessages(client.id);
-            } else if (!client.isClosed) {
-                showNotification('Новое сообщение', `От ${client.name}: ${data.text}`, 'info');
-            }
-        }
-
-        // Обработка отключения клиента
-        function handleClientDisconnected(data) {
-            const client = clients.find(c => c.id === data.clientId);
-            if (client) {
-                client.status = 'offline';
-                client.lastTime = 'только что';
-                
-                if (selectedClientId === client.id) {
-                    document.getElementById('chatClientStatus').textContent = 'Офлайн';
-                    document.getElementById('chatClientStatus').className = 'chat-client-status offline';
-                }
-                
-                renderClientsList();
-                addActivity(`Клиент отключился: ${client.name}`, 'warning');
-            }
-        }
-
-        // Обработка индикатора печатания
-        function handleTyping(data) {
-            if (selectedClientId === data.clientId) {
-                const typingIndicator = document.getElementById('typingIndicator');
-                const typingText = document.getElementById('typingText');
-                
-                if (data.isTyping) {
-                    typingText.textContent = 'Клиент печатает...';
-                    typingIndicator.style.display = 'flex';
-                } else {
-                    typingIndicator.style.display = 'none';
-                }
-            }
-        }
-
-        // Отправка сообщения через WebSocket
-        function sendWebSocketMessage(text) {
-            if (operatorWS && operatorWS.readyState === WebSocket.OPEN && selectedClientId && currentRoomId) {
-                const client = clients.find(c => c.id === selectedClientId);
-                if (!client || client.isClosed) return false;
-                
-                const message = {
-                    type: 'operator_message',
-                    roomId: currentRoomId,
-                    operatorId: operatorId,
-                    text: text,
-                    operatorName: 'Оператор'
-                };
-                operatorWS.send(JSON.stringify(message));
-                
-                // Сохраняем сообщение локально
-                client.messages.push({
-                    type: 'operator',
-                    text: text,
-                    time: new Date().toLocaleTimeString('ru-RU')
-                });
-                client.lastMessage = text;
-                client.lastTime = new Date().toLocaleTimeString('ru-RU');
-                
-                return true;
-            }
-            return false;
-        }
-
-        // Удаление чата
-        function deleteChat(clientId) {
-            const client = clients.find(c => c.id === clientId);
-            if (!client) return;
-            
-            const index = clients.findIndex(c => c.id === clientId);
-            if (index !== -1) {
-                clients.splice(index, 1);
-                
-                if (selectedClientId === clientId) {
-                    selectedClientId = null;
-                    currentRoomId = null;
-                    
-                    // Сбрасываем интерфейс чата
-                    document.getElementById('chatClientName').textContent = 'Выберите клиента';
-                    document.getElementById('chatClientStatus').textContent = 'Неактивно';
-                    document.getElementById('chatClientAvatar').innerHTML = '<i class="fas fa-user"></i>';
-                    document.getElementById('chatClientAvatar').style.background = '';
-                    document.getElementById('messageInput').disabled = true;
-                    document.getElementById('sendMessage').disabled = true;
-                    
-                    const chatMessages = document.getElementById('chatMessages');
-                    chatMessages.innerHTML = `
-                        <div class="message message-system">
-                            <div class="message-text">Выберите клиента из списка слева для начала общения</div>
-                        </div>
-                    `;
-                }
-                
-                renderClientsList();
-                updateStats();
-                
-                showNotification('Чат удален', `Диалог с ${client.name} удален`, 'danger');
-                addActivity(`Чат удален: ${client.name}`, 'danger');
-            }
-        }
-
-        // Архивация чата
-        function archiveChat(clientId) {
-            const client = clients.find(c => c.id === clientId);
-            if (!client) return;
-            
-            client.isClosed = true;
-            client.status = 'archived';
-            client.lastTime = new Date().toLocaleTimeString('ru-RU');
-            
-            // Добавляем системное сообщение о закрытии
-            client.messages.push({
-                type: 'system',
-                text: 'Чат архивирован оператором',
-                time: new Date().toLocaleTimeString('ru-RU')
-            });
-            
-            if (selectedClientId === clientId) {
-                // Показываем сообщение о закрытии
-                renderMessages(clientId);
-                
-                // Деактивируем поле ввода
-                document.getElementById('messageInput').disabled = true;
-                document.getElementById('messageInput').placeholder = 'Чат архивирован';
-                document.getElementById('sendMessage').disabled = true;
-            }
-            
-            renderClientsList();
-            updateStats();
-            
-            showNotification('Чат архивирован', `Диалог с ${client.name} помещен в архив`, 'warning');
-            addActivity(`Чат архивирован: ${client.name}`, 'warning');
-        }
-
-        // Очистка всех закрытых чатов
-        function clearClosedChats() {
-            const closedClients = clients.filter(c => c.isClosed);
-            if (closedClients.length === 0) {
-                showNotification('Нет закрытых чатов', 'Все чаты активны', 'info');
-                return;
-            }
-            
-            // Удаляем закрытые чаты
-            clients = clients.filter(c => !c.isClosed);
-            
-            // Если выбранный клиент был закрыт
-            if (selectedClientId) {
-                const selectedClient = clients.find(c => c.id === selectedClientId);
-                if (!selectedClient || selectedClient.isClosed) {
-                    selectedClientId = null;
-                    currentRoomId = null;
-                    
-                    // Сбрасываем интерфейс чата
-                    document.getElementById('chatClientName').textContent = 'Выберите клиента';
-                    document.getElementById('chatClientStatus').textContent = 'Неактивно';
-                    document.getElementById('chatClientAvatar').innerHTML = '<i class="fas fa-user"></i>';
-                    document.getElementById('chatClientAvatar').style.background = '';
-                    document.getElementById('messageInput').disabled = true;
-                    document.getElementById('sendMessage').disabled = true;
-                    
-                    const chatMessages = document.getElementById('chatMessages');
-                    chatMessages.innerHTML = `
-                        <div class="message message-system">
-                            <div class="message-text">Выберите клиента из списка слева для начала общения</div>
-                        </div>
-                    `;
-                }
-            }
-            
-            renderClientsList();
-            updateStats();
-            
-            showNotification('Очищено', `Удалено ${closedClients.length} закрытых чатов`, 'success');
-            addActivity(`Очищено ${closedClients.length} закрытых чатов`, 'success');
-        }
-
-        // Модальное окно подтверждения
-        function showConfirmModal(title, text, callback) {
-            document.getElementById('modalTitle').textContent = title;
-            document.getElementById('modalText').textContent = text;
-            confirmCallback = callback;
-            document.getElementById('confirmModal').style.display = 'flex';
-        }
-
-        // Отображение списка клиентов
-        function renderClientsList() {
-            const clientsList = document.getElementById('clientsList');
-            clientsList.innerHTML = '';
-            
-            // Сортируем: сначала активные, потом закрытые
-            const sortedClients = [...clients].sort((a, b) => {
-                if (a.isClosed && !b.isClosed) return 1;
-                if (!a.isClosed && b.isClosed) return -1;
-                return new Date(b.lastTime) - new Date(a.lastTime);
-            });
-            
-            sortedClients.forEach(client => {
-                const clientItem = document.createElement('div');
-                clientItem.className = `client-item ${selectedClientId === client.id ? 'active' : ''} ${client.isClosed ? 'closed' : ''}`;
-                clientItem.dataset.id = client.id;
-                
-                const initials = client.name.split(' ').map(n => n[0]).join('').toUpperCase() || 'К';
-                
-                clientItem.innerHTML = `
-                    <div class="client-avatar" style="background: ${client.avatarBg}">
-                        ${initials}
-                    </div>
-                    <div class="client-info">
-                        <div class="client-name">${client.name}</div>
-                        <div class="client-last-message">${client.lastMessage}</div>
-                    </div>
-                    <div class="client-meta">
-                        <div class="client-time">${client.lastTime}</div>
-                        ${client.unread > 0 && !client.isClosed ? `<div class="unread-badge">${client.unread}</div>` : ''}
-                    </div>
-                    <div class="client-actions">
-                        ${!client.isClosed ? `
-                            <button class="client-action-btn archive" title="Архивировать">
-                                <i class="fas fa-archive"></i>
-                            </button>
-                        ` : ''}
-                        <button class="client-action-btn delete" title="Удалить">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </div>
-                `;
-                
-                // Обработчики кликов
-                clientItem.addEventListener('click', (e) => {
-                    if (!e.target.closest('.client-action-btn')) {
-                        selectClient(client.id);
-                    }
-                });
-                
-                // Обработчики кнопок действий
-                const archiveBtn = clientItem.querySelector('.client-action-btn.archive');
-                const deleteBtn = clientItem.querySelector('.client-action-btn.delete');
-                
-                if (archiveBtn) {
-                    archiveBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        showConfirmModal(
-                            'Архивировать чат',
-                            `Вы уверены, что хотите архивировать чат с ${client.name}?`,
-                            () => archiveChat(client.id)
-                        );
-                    });
-                }
-                
-                if (deleteBtn) {
-                    deleteBtn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        showConfirmModal(
-                            client.isClosed ? 'Удалить чат' : 'Закрыть и удалить чат',
-                            client.isClosed 
-                                ? `Вы уверены, что хотите удалить чат с ${client.name}?`
-                                : `Чат будет закрыт и удален. Вы уверены?`,
-                            () => deleteChat(client.id)
-                        );
-                    });
-                }
-                
-                clientsList.appendChild(clientItem);
-            });
-        }
-
-        // Выбор клиента
-        function selectClient(clientId) {
-            const client = clients.find(c => c.id === clientId);
-            if (!client) return;
-            
-            selectedClientId = clientId;
-            currentRoomId = client.roomId;
-            
-            // Сбрасываем счетчик непрочитанных
-            client.unread = 0;
-            
-            // Обновляем интерфейс
-            document.getElementById('chatClientName').textContent = client.name;
-            document.getElementById('chatClientStatus').textContent = client.isClosed ? 'Архивирован' : (client.status === 'online' ? 'Онлайн' : 'Офлайн');
-            document.getElementById('chatClientStatus').className = `chat-client-status ${client.isClosed ? 'offline' : (client.status === 'online' ? '' : 'offline')}`;
-            
-            const initials = client.name.split(' ').map(n => n[0]).join('').toUpperCase() || 'К';
-            document.getElementById('chatClientAvatar').innerHTML = initials;
-            document.getElementById('chatClientAvatar').style.background = client.avatarBg;
-            
-            // Настраиваем поле ввода
-            const messageInput = document.getElementById('messageInput');
-            const sendButton = document.getElementById('sendMessage');
-            
-            if (client.isClosed) {
-                messageInput.disabled = true;
-                messageInput.placeholder = 'Чат архивирован';
-                sendButton.disabled = true;
-            } else {
-                messageInput.disabled = false;
-                messageInput.placeholder = 'Введите сообщение...';
-                sendButton.disabled = !messageInput.value.trim();
-            }
-            
-            // Показываем сообщения
-            renderMessages(clientId);
-            
-            // Обновляем список клиентов
-            renderClientsList();
-        }
-
-        // Отображение сообщений
-        function renderMessages(clientId) {
+            // Элементы чата
+            const chatToggle = document.getElementById('chatToggle');
+            const chatContainer = document.getElementById('chatContainer');
+            const chatClose = document.getElementById('chatClose');
             const chatMessages = document.getElementById('chatMessages');
-            const client = clients.find(c => c.id === clientId);
-            
-            if (!client) return;
-            
-            chatMessages.innerHTML = '';
-            
-            // Показываем информацию о клиенте
-            if (client.isClosed) {
-                const closedMessage = document.createElement('div');
-                closedMessage.className = 'message message-closed';
-                closedMessage.innerHTML = `
-                    <div style="font-size: 14px; font-weight: 500; margin-bottom: 5px;">
-                        <i class="fas fa-archive"></i> Чат архивирован
-                    </div>
-                    <div style="font-size: 13px; color: #666;">
-                        Этот чат был архивирован. Новые сообщения не принимаются.
-                    </div>
-                `;
-                chatMessages.appendChild(closedMessage);
+            const chatInput = document.getElementById('chatInput');
+            const chatSend = document.getElementById('chatSend');
+            const chatTyping = document.getElementById('chatTyping');
+            const quickReplies = document.getElementById('quickReplies');
+            const chatStatusText = document.getElementById('chatStatusText');
+            const initTime = document.getElementById('initTime');
+
+            // Инициализация времени
+            initTime.textContent = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+            // Функция подключения к WebSocket серверу
+            function connectToWebSocket() {
+                const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                const wsUrl = window.location.protocol === 'https:' 
+  ? 'wss://178.72.152.193' 
+  : 'ws://178.72.152.193:3000';
+                
+                console.log('Подключение к WebSocket:', wsUrl);
+                updateConnectionStatus('connecting', 'Подключение...');
+                
+                clientWS = new WebSocket(wsUrl);
+                
+                clientWS.onopen = function() {
+                    console.log('✅ WebSocket подключен к серверу');
+                    isConnected = true;
+                    updateConnectionStatus('online', 'Подключено');
+                    updateChatStatus('online', 'Онлайн');
+                    
+                    // Получаем данные клиента
+                    const name = document.getElementById('clientName')?.textContent || 
+                                 fullNameInput?.value || 
+                                 'Клиент';
+                    const phone = document.getElementById('clientPhone')?.textContent || 
+                                  phoneInput?.value || 
+                                  'Не указан';
+                    
+                    // Регистрируем клиента на сервере
+                    clientWS.send(JSON.stringify({
+                        type: 'register_client',
+                        name: name,
+                        phone: phone
+                    }));
+                    
+                    // Активируем поле ввода
+                    chatInput.disabled = false;
+                    chatInput.placeholder = 'Введите сообщение...';
+                    chatSend.disabled = true;
+                    
+                    // Добавляем системное сообщение
+                    addSystemMessage('Соединение с поддержкой установлено');
+                };
+                
+                clientWS.onmessage = function(event) {
+                    try {
+                        const data = JSON.parse(event.data);
+                        console.log('📨 Получено сообщение:', data.type);
+                        handleWebSocketMessage(data);
+                    } catch (error) {
+                        console.error('❌ Ошибка обработки сообщения:', error);
+                    }
+                };
+                
+                clientWS.onclose = function() {
+                    console.log('🔌 WebSocket отключен');
+                    isConnected = false;
+                    updateConnectionStatus('offline', 'Отключено');
+                    updateChatStatus('offline', 'Офлайн');
+                    
+                    // Деактивируем поле ввода
+                    chatInput.disabled = true;
+                    chatInput.placeholder = 'Подключение...';
+                    chatSend.disabled = true;
+                    
+                    addSystemMessage('Соединение потеряно. Пытаемся переподключиться...');
+                    
+                    // Пытаемся переподключиться через 3 секунды
+                    setTimeout(connectToWebSocket, 3000);
+                };
+                
+                clientWS.onerror = function(error) {
+                    console.error('⚠️ WebSocket ошибка:', error);
+                    updateConnectionStatus('offline', 'Ошибка подключения');
+                    updateChatStatus('offline', 'Ошибка');
+                };
             }
             
-            client.messages.forEach(msg => {
-                const messageDiv = document.createElement('div');
-                let senderName = '';
-                
-                switch (msg.type) {
-                    case 'user':
-                        messageDiv.className = 'message message-user';
-                        senderName = client.name.split(' ')[0];
+            // Обработка сообщений от сервера
+            function handleWebSocketMessage(data) {
+                switch (data.type) {
+                    case 'registered':
+                        // Успешная регистрация клиента
+                        clientId = data.clientId;
+                        roomId = data.roomId;
+                        console.log('✅ Клиент зарегистрирован, ID:', clientId, 'Room:', roomId);
+                        addSystemMessage('Вы подключены к поддержке. Ожидайте ответа оператора.');
                         break;
-                    case 'operator':
-                        messageDiv.className = 'message message-operator';
-                        senderName = 'Вы';
+                        
+                    case 'operator_message':
+                        // Сообщение от оператора
+                        addChatMessage(data.operatorName || 'Оператор', data.text, data.time, false);
+                        
+                        // Показываем уведомление, если чат свернут
+                        if (!chatContainer.classList.contains('active')) {
+                            showNotification('Новое сообщение', data.text);
+                        }
                         break;
+                        
+                    case 'operator_connected':
+                        // Подключился оператор
+                        addSystemMessage(`С вами соединился оператор: ${data.operatorName}`);
+                        break;
+                        
+                    case 'operator_disconnected':
+                        // Оператор отключился
+                        addSystemMessage('Оператор отключился. Пожалуйста, подождите...');
+                        break;
+                        
+                    case 'typing':
+                        // Оператор печатает
+                        if (data.isTyping) {
+                            chatTyping.classList.add('active');
+                        } else {
+                            chatTyping.classList.remove('active');
+                        }
+                        break;
+                        
                     case 'system':
-                        messageDiv.className = 'message message-system';
-                        senderName = 'Система';
+                        // Системное сообщение
+                        addSystemMessage(data.message);
+                        break;
+                        
+                    case 'error':
+                        // Ошибка
+                        addSystemMessage(`Ошибка: ${data.message}`);
                         break;
                 }
+            }
+            
+            // Функции для работы с UI
+            function updateConnectionStatus(status, text) {
+                if (!connectionStatus) return;
                 
-                if (msg.type !== 'system') {
-                    messageDiv.innerHTML = `
-                        <div class="message-header">
-                            <span class="message-sender">${senderName}</span>
-                        </div>
-                        <div class="message-text">${msg.text}</div>
-                        <div class="message-time">${msg.time}</div>
-                    `;
-                } else {
-                    messageDiv.innerHTML = `
-                        <div class="message-text">${msg.text}</div>
-                        <div class="message-time">${msg.time}</div>
-                    `;
-                }
+                connectionStatus.className = `connection-status ${status}`;
+                connectionStatus.innerHTML = `<i class="fas fa-circle"></i><span>${text}</span>`;
+                connectionStatus.style.display = 'flex';
+            }
+            
+            function updateChatStatus(status, text) {
+                if (!chatStatusText) return;
+                
+                chatStatusText.textContent = text;
+                chatStatusText.className = `chat-status ${status}`;
+            }
+            
+            function addChatMessage(sender, text, time, isOwn = false) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isOwn ? 'message-user' : 'message-bot'}`;
+                
+                const timeStr = time || new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+                
+                messageDiv.innerHTML = `
+                    <div class="message-text">${text}</div>
+                    <div class="message-time">${timeStr}</div>
+                `;
                 
                 chatMessages.appendChild(messageDiv);
-            });
-            
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        // Отправка сообщения
-        function sendMessage() {
-            const input = document.getElementById('messageInput');
-            const message = input.value.trim();
-            
-            if (!message || !selectedClientId) return;
-            
-            const client = clients.find(c => c.id === selectedClientId);
-            if (!client || client.isClosed) return;
-            
-            // Отправляем через WebSocket
-            const sent = sendWebSocketMessage(message);
-            
-            if (sent) {
-                renderMessages(selectedClientId);
-                renderClientsList();
-                addActivity(`Отправлено сообщение клиенту ${client.name}`, 'info');
+                chatMessages.scrollTop = chatMessages.scrollHeight;
                 
-                input.value = '';
-                document.getElementById('sendMessage').disabled = true;
-            } else {
-                showNotification('Ошибка', 'Не удалось отправить сообщение', 'danger');
+                // Убираем индикатор печатания
+                chatTyping.classList.remove('active');
             }
-        }
-
-        // Уведомления
-        function showNotification(title, text, type = 'info') {
-            const notifications = document.getElementById('notifications');
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
-            notification.innerHTML = `
-                <div class="notification-icon">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : type === 'danger' ? 'times-circle' : 'info-circle'}"></i>
-                </div>
-                <div class="notification-content">
-                    <div class="notification-title">${title}</div>
-                    <div class="notification-text">${text}</div>
-                </div>
-                <button class="notification-close">
-                    <i class="fas fa-times"></i>
-                </button>
-            `;
             
-            notifications.appendChild(notification);
+            function addSystemMessage(text) {
+                const systemDiv = document.createElement('div');
+                systemDiv.className = 'message message-system';
+                systemDiv.textContent = text;
+                
+                chatMessages.appendChild(systemDiv);
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
             
-            // Удаление уведомления при клике
-            notification.querySelector('.notification-close').addEventListener('click', () => {
-                notification.remove();
-            });
-            
-            // Автоматическое удаление через 5 секунд
-            setTimeout(() => {
-                if (notification.parentNode) {
-                    notification.remove();
+            function showNotification(title, text) {
+                // Проверяем поддержку уведомлений
+                if ("Notification" in window && Notification.permission === "granted") {
+                    new Notification(title, { body: text, icon: '/favicon.ico' });
                 }
-            }, 5000);
-        }
-
-        // Добавление активности
-        function addActivity(text, type = 'info') {
-            const activityList = document.getElementById('activityList');
-            const activity = document.createElement('div');
-            activity.className = 'activity-item';
-            
-            let icon = 'info-circle';
-            if (type === 'success') icon = 'check-circle';
-            if (type === 'warning') icon = 'exclamation-triangle';
-            if (type === 'danger') icon = 'times-circle';
-            
-            activity.innerHTML = `
-                <div class="activity-icon ${type}">
-                    <i class="fas fa-${icon}"></i>
-                </div>
-                <div class="activity-content">
-                    <div class="activity-text">${text}</div>
-                    <div class="activity-time">${new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' })}</div>
-                </div>
-            `;
-            
-            activityList.insertBefore(activity, activityList.firstChild);
-            
-            // Ограничиваем количество записей
-            if (activityList.children.length > 10) {
-                activityList.removeChild(activityList.lastChild);
             }
-        }
-
-        // Обновление статистики
-        function updateStats() {
-            const activeCount = clients.filter(c => !c.isClosed && c.status === 'online').length;
-            const waitingCount = clients.filter(c => !c.isClosed && c.unread > 0).length;
-            const closedCount = clients.filter(c => c.isClosed).length;
-            const totalCount = clients.length;
             
-            document.getElementById('statToday').textContent = totalCount;
-            document.getElementById('statActive').textContent = activeCount;
-            document.getElementById('statWaiting').textContent = waitingCount;
-            document.getElementById('statClosed').textContent = closedCount;
-        }
-
-        // Обновление статуса
-        function updateStatus(status) {
-            const statusBadge = document.getElementById('statusBadge');
-            const statusText = document.getElementById('statusText');
-            
-            if (status === 'online') {
-                statusBadge.className = 'status-badge';
-                statusBadge.innerHTML = '<i class="fas fa-circle"></i> <span id="statusText">Онлайн</span>';
-                statusText.textContent = 'Онлайн';
-                isOnline = true;
-            } else {
-                statusBadge.className = 'status-badge status-offline';
-                statusBadge.innerHTML = '<i class="fas fa-circle"></i> <span id="statusText">Офлайн</span>';
-                statusText.textContent = 'Офлайн';
-                isOnline = false;
+            // Отправка сообщения
+            function sendMessage() {
+                const text = chatInput.value.trim();
+                if (!text || !isConnected) return;
+                
+                // Отправляем через WebSocket
+                clientWS.send(JSON.stringify({
+                    type: 'client_message',
+                    text: text
+                }));
+                
+                // Добавляем в историю
+                addChatMessage('Вы', text, new Date().toLocaleTimeString('ru-RU'), true);
+                
+                // Очищаем поле ввода
+                chatInput.value = '';
+                chatSend.disabled = true;
+                
+                // Отправляем индикатор печатания (остановка)
+                clientWS.send(JSON.stringify({
+                    type: 'typing',
+                    isTyping: false
+                }));
             }
-        }
-
-        // Вспомогательные функции
-        function getRandomColor() {
-            const colors = ['#2196F3', '#4CAF50', '#FF9800', '#9C27B0', '#00BCD4', '#E91E63', '#8BC34A', '#FF5722'];
-            return colors[Math.floor(Math.random() * colors.length)];
-        }
-
-        // Инициализация
-        document.addEventListener('DOMContentLoaded', function() {
-            // Подключаемся к WebSocket
-            connectWebSocket();
             
-            // Инициализация данных
-            renderClientsList();
-            updateStats();
-            
-            // Добавляем тестовые активности
-            addActivity('Система запущена', 'success');
-            addActivity('Подключен к серверу сообщений', 'info');
-            
-            // Быстрые ответы
-            document.getElementById('quickReplies').addEventListener('click', (e) => {
-                if (e.target.classList.contains('quick-reply')) {
-                    const text = e.target.dataset.text;
-                    const messageInput = document.getElementById('messageInput');
-                    messageInput.value = text;
-                    document.getElementById('sendMessage').disabled = !text.trim();
-                    messageInput.focus();
+            // Обработчики событий для чата
+            chatToggle.addEventListener('click', () => {
+                chatContainer.classList.toggle('active');
+                chatToggle.classList.toggle('active');
+                chatToggle.innerHTML = chatContainer.classList.contains('active') 
+                    ? '<i class="fas fa-times"></i>' 
+                    : '<i class="fas fa-comment-alt"></i>';
+                
+                // Автоматически подключаемся при первом открытии
+                if (chatContainer.classList.contains('active') && !isConnected) {
+                    connectToWebSocket();
                 }
             });
             
-            // Ввод сообщения
-            document.getElementById('messageInput').addEventListener('input', function() {
-                document.getElementById('sendMessage').disabled = !this.value.trim() || !selectedClientId;
+            chatClose.addEventListener('click', () => {
+                chatContainer.classList.remove('active');
+                chatToggle.classList.remove('active');
+                chatToggle.innerHTML = '<i class="fas fa-comment-alt"></i>';
             });
             
-            document.getElementById('messageInput').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' && !e.shiftKey) {
+            chatInput.addEventListener('input', () => {
+                // Активируем кнопку отправки
+                chatSend.disabled = !chatInput.value.trim() || !isConnected;
+                
+                // Отправляем индикатор печатания
+                if (isConnected && clientWS && chatInput.value.trim()) {
+                    clientWS.send(JSON.stringify({
+                        type: 'typing',
+                        isTyping: true
+                    }));
+                    
+                    // Через 1 секунду отправляем "перестал печатать"
+                    clearTimeout(window.typingTimeout);
+                    window.typingTimeout = setTimeout(() => {
+                        if (clientWS && clientWS.readyState === WebSocket.OPEN) {
+                            clientWS.send(JSON.stringify({
+                                type: 'typing',
+                                isTyping: false
+                            }));
+                        }
+                    }, 1000);
+                }
+            });
+            
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter' && chatInput.value.trim() && isConnected) {
                     e.preventDefault();
                     sendMessage();
                 }
             });
             
-            // Отправка сообщения
-            document.getElementById('sendMessage').addEventListener('click', sendMessage);
+            chatSend.addEventListener('click', sendMessage);
             
-            // Переключение статуса
-            document.getElementById('statusToggle').addEventListener('click', function() {
-                isOnline = !isOnline;
-                
-                if (isOnline) {
-                    updateStatus('online');
-                    showNotification('Статус изменен', 'Теперь вы онлайн', 'success');
-                    addActivity('Оператор перешел в онлайн', 'success');
-                } else {
-                    updateStatus('offline');
-                    showNotification('Статус изменен', 'Теперь вы офлайн', 'warning');
-                    addActivity('Оператор перешел в офлайн', 'warning');
+            quickReplies.addEventListener('click', (e) => {
+                if (e.target.classList.contains('quick-reply')) {
+                    const question = e.target.getAttribute('data-question');
+                    chatInput.value = question;
+                    chatSend.disabled = false;
+                    chatInput.focus();
                 }
             });
             
-            // Обновление
-            document.getElementById('refreshBtn').addEventListener('click', function() {
-                renderClientsList();
-                updateStats();
-                showNotification('Обновлено', 'Данные успешно обновлены', 'success');
-                addActivity('Данные обновлены вручную', 'info');
-            });
+            // Запрашиваем разрешение на уведомления
+            if ("Notification" in window && Notification.permission === "default") {
+                Notification.requestPermission();
+            }
             
-            // Очистка закрытых чатов
-            document.getElementById('clearClosedBtn').addEventListener('click', function() {
-                showConfirmModal(
-                    'Очистить закрытые чаты',
-                    'Вы уверены, что хотите удалить все архивированные чаты?',
-                    clearClosedChats
-                );
-            });
-            
-            // Поиск клиентов
-            document.getElementById('clientSearch').addEventListener('input', function(e) {
-                const searchTerm = e.target.value.toLowerCase();
-                const clientItems = document.querySelectorAll('.client-item');
+            // Существующие функции генератора
+            async function shortenUrl(longUrl) {
+                try {
+                    loadingShorten.style.display = 'block';
+                    shortenBtn.disabled = true;
+                    
+                    const response = await fetch(`https://clck.ru/--?url=${encodeURIComponent(longUrl)}`);
+                    
+                    if (response.ok) {
+                        const shortUrl = await response.text();
+                        return shortUrl;
+                    } else {
+                        throw new Error('Ошибка при сокращении ссылки');
+                    }
+                } catch (error) {
+                    console.error('Ошибка:', error);
+                    return longUrl;
+                } finally {
+                    loadingShorten.style.display = 'none';
+                    shortenBtn.disabled = false;
+                }
+            }
+
+            function showLoading() {
+                loadingModal.style.display = 'flex';
                 
-                clientItems.forEach(item => {
-                    const clientName = item.querySelector('.client-name').textContent.toLowerCase();
-                    const clientMessage = item.querySelector('.client-last-message').textContent.toLowerCase();
-                    const shouldShow = clientName.includes(searchTerm) || clientMessage.includes(searchTerm);
-                    item.style.display = shouldShow ? 'flex' : 'none';
+                setTimeout(() => {
+                    loadingModal.style.display = 'none';
+                    clientContainer.style.display = 'block';
+                    generatorContainer.style.display = 'none';
+                    
+                    // Запускаем WebSocket подключение после загрузки страницы клиента
+                    setTimeout(() => {
+                        connectToWebSocket();
+                    }, 1000);
+                }, 3000);
+            }
+
+            generateBtn.addEventListener('click', function() {
+                const fullName = fullNameInput.value.trim();
+                const phone = phoneInput.value.trim();
+                
+                if (!fullName || !phone) {
+                    alert('Заполните все поля');
+                    return;
+                }
+                
+                const baseUrl = window.location.href.split('?')[0];
+                const params = new URLSearchParams({
+                    name: encodeURIComponent(fullName),
+                    phone: encodeURIComponent(phone),
+                    date: new Date().toLocaleDateString('ru-RU')
+                });
+                
+                currentLongUrl = `${baseUrl}?${params.toString()}`;
+                generatedLink.textContent = currentLongUrl;
+                resultContainer.style.display = 'block';
+            });
+
+            shortenBtn.addEventListener('click', async function() {
+                if (!currentLongUrl) {
+                    alert('Сначала сгенерируйте ссылку!');
+                    return;
+                }
+                
+                const shortUrl = await shortenUrl(currentLongUrl);
+                generatedLink.textContent = shortUrl;
+                currentLongUrl = shortUrl;
+            });
+
+            copyBtn.addEventListener('click', function() {
+                const link = generatedLink.textContent;
+                navigator.clipboard.writeText(link).then(function() {
+                    const originalText = copyBtn.innerHTML;
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> Скопировано';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = originalText;
+                    }, 2000);
                 });
             });
-            
-            // Кнопки чата
-            document.getElementById('transferChat').addEventListener('click', function() {
-                if (selectedClientId) {
-                    showNotification('Диалог передан', 'Клиент передан другому оператору', 'info');
-                    addActivity('Диалог передан другому оператору', 'warning');
+
+            previewBtn.addEventListener('click', function() {
+                const fullName = fullNameInput.value.trim();
+                const phone = phoneInput.value.trim();
+                
+                if (!fullName || !phone) {
+                    alert('Заполните все поля');
+                    return;
                 }
+                
+                const today = new Date().toLocaleDateString('ru-RU');
+                
+                clientName.textContent = fullName;
+                clientPhone.textContent = phone;
+                clientDate.textContent = today;
+                signatureOwner.textContent = fullName;
+                
+                showLoading();
             });
-            
-            document.getElementById('archiveChat').addEventListener('click', function() {
-                if (selectedClientId) {
-                    const client = clients.find(c => c.id === selectedClientId);
-                    if (client) {
-                        showConfirmModal(
-                            'Архивировать чат',
-                            `Вы уверены, что хотите архивировать чат с ${client.name}?`,
-                            () => archiveChat(selectedClientId)
-                        );
-                    }
+
+            function checkUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                
+                if (urlParams.has('name')) {
+                    const name = urlParams.get('name') ? decodeURIComponent(urlParams.get('name')) : 'Клиент';
+                    const phone = urlParams.get('phone') ? decodeURIComponent(urlParams.get('phone')) : 'Не указан';
+                    const date = urlParams.get('date') || new Date().toLocaleDateString('ru-RU');
+                    
+                    clientName.textContent = name;
+                    clientPhone.textContent = phone;
+                    clientDate.textContent = date;
+                    signatureOwner.textContent = name;
+                    
+                    showLoading();
                 }
-            });
-            
-            document.getElementById('deleteChat').addEventListener('click', function() {
-                if (selectedClientId) {
-                    const client = clients.find(c => c.id === selectedClientId);
-                    if (client) {
-                        showConfirmModal(
-                            client.isClosed ? 'Удалить чат' : 'Закрыть и удалить чат',
-                            client.isClosed 
-                                ? `Вы уверены, что хотите удалить чат с ${client.name}?`
-                                : `Чат будет закрыт и удален. Вы уверены?`,
-                            () => deleteChat(selectedClientId)
-                        );
-                    }
-                }
-            });
-            
-            document.getElementById('closeChat').addEventListener('click', function() {
-                if (selectedClientId) {
-                    const client = clients.find(c => c.id === selectedClientId);
-                    if (client && !client.isClosed) {
-                        showConfirmModal(
-                            'Закрыть диалог',
-                            `Вы уверены, что хотите закрыть диалог с ${client.name}?`,
-                            () => archiveChat(selectedClientId)
-                        );
-                    }
-                }
-            });
-            
-            document.getElementById('clientInfo').addEventListener('click', function() {
-                if (selectedClientId) {
-                    const client = clients.find(c => c.id === selectedClientId);
-                    if (client) {
-                        showNotification('Информация о клиенте', 
-                            `Имя: ${client.name}<br>Телефон: ${client.phone}<br>Email: ${client.email}<br>Статус: ${client.isClosed ? 'Архивирован' : (client.status === 'online' ? 'Онлайн' : 'Офлайн')}`,
-                            'info'
-                        );
-                    }
-                }
-            });
-            
-            // Модальное окно
-            document.getElementById('modalCancel').addEventListener('click', function() {
-                document.getElementById('confirmModal').style.display = 'none';
-                confirmCallback = null;
-            });
-            
-            document.getElementById('modalConfirm').addEventListener('click', function() {
-                if (confirmCallback) {
-                    confirmCallback();
-                }
-                document.getElementById('confirmModal').style.display = 'none';
-                confirmCallback = null;
-            });
-            
-            // Закрытие модального окна при клике вне его
-            document.getElementById('confirmModal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.style.display = 'none';
-                    confirmCallback = null;
-                }
-            });
-            
-            // Тестовые данные для демонстрации
+            }
+
+            // Автоматически открываем чат на странице клиента
             setTimeout(() => {
-                // Добавляем тестовых клиентов
-                const testClients = [
-                    {
-                        id: 'test1',
-                        name: 'НОВИК РАИСА СТЕПАНОВНА',
-                        phone: '79052411441',
-                        email: 'client1@example.com',
-                        avatarBg: '#2196F3',
-                        lastMessage: 'Здравствуйте, хочу узнать про электронную подпись',
-                        lastTime: '10:25',
-                        unread: 2,
-                        status: 'online',
-                        roomId: 'room1',
-                        isClosed: false,
-                        messages: [
-                            { type: 'system', text: 'Клиент подключился к чату', time: '10:20' },
-                            { type: 'user', text: 'Здравствуйте, хочу узнать про электронную подпись', time: '10:25' }
-                        ]
-                    },
-                    {
-                        id: 'test2',
-                        name: 'ИВАНОВ ИВАН ИВАНОВИЧ',
-                        phone: '79161234567',
-                        email: 'client2@example.com',
-                        avatarBg: '#4CAF50',
-                        lastMessage: 'Как отменить операцию?',
-                        lastTime: '09:45',
-                        unread: 0,
-                        status: 'offline',
-                        roomId: 'room2',
-                        isClosed: false,
-                        messages: [
-                            { type: 'system', text: 'Клиент подключился к чату', time: '09:40' },
-                            { type: 'user', text: 'Как отменить операцию?', time: '09:45' },
-                            { type: 'operator', text: 'Для отмены операции позвоните по номеру поддержки 7 (914) 912-99-62', time: '09:50' }
-                        ]
-                    },
-                    {
-                        id: 'test3',
-                        name: 'ПЕТРОВА МАРИЯ СЕРГЕЕВНА',
-                        phone: '79269876543',
-                        email: 'client3@example.com',
-                        avatarBg: '#FF9800',
-                        lastMessage: 'Спасибо за помощь!',
-                        lastTime: 'Вчера',
-                        unread: 0,
-                        status: 'online',
-                        roomId: 'room3',
-                        isClosed: true,
-                        messages: [
-                            { type: 'system', text: 'Клиент подключился к чату', time: '16:30' },
-                            { type: 'user', text: 'Нужна помощь с подключением СБП', time: '16:35' },
-                            { type: 'operator', text: 'СБП подключен автоматически при подписании документов', time: '16:40' },
-                            { type: 'user', text: 'Спасибо за помощь!', time: '16:45' },
-                            { type: 'system', text: 'Чат архивирован оператором', time: '16:50' }
-                        ]
-                    }
-                ];
-                
-                clients = [...clients, ...testClients];
-                renderClientsList();
-                updateStats();
-                
-                showNotification('Тестовые данные загружены', 'Добавлены демонстрационные клиенты', 'info');
-            }, 1000);
+                if (clientContainer.style.display === 'block') {
+                    chatContainer.classList.add('active');
+                    chatToggle.classList.add('active');
+                    chatToggle.innerHTML = '<i class="fas fa-times"></i>';
+                    
+                    // Запускаем WebSocket подключение
+                    connectToWebSocket();
+                }
+            }, 3500);
+
+            checkUrl();
         });
     </script>
 </body>
